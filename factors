@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+import sys
+import random
+
+def factorize_numbers(input_file):
+    try:
+        with open(input_file, 'r') as file:
+            for line in file:
+                n = int(line.strip())
+                factors = pollards_rho(n)
+                print(f"{n}={factors[0]}*{factors[1]}")
+    except FileNotFoundError:
+        print(f"File not found: {input_file}")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+def pollards_rho(n):
+    if n % 2 == 0:
+        return (2, n // 2)
+
+    x = random.randint(1, n - 1)
+    y = x
+    c = random.randint(1, n - 1)
+    d = 1
+
+    while d == 1:
+        x = (x * x + c) % n
+        y = (y * y + c) % n
+        y = (y * y + c) % n
+        d = gcd(abs(x - y), n)
+
+    return (d, n // d)
+
+def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    factorize_numbers(input_file)
