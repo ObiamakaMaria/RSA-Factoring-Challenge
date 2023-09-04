@@ -1,0 +1,47 @@
+#!/usr/bin/python3
+
+import sys
+
+def factorize_numbers(input_file):
+    try:
+        with open(input_file, 'r') as file:
+            for line in file:
+                n = int(line.strip())
+                factors = factorize(n)
+                print(f"{n}={factors[0]}*{factors[1]}")
+    except FileNotFoundError:
+        print(f"File not found: {input_file}")
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+def factorize(n):
+    # Check for small prime factors
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            if is_prime(i) and is_prime(n // i):
+                return (i, n // i)
+    
+    # If no factors found up to the square root, n is prime
+    return (n, 1)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: rsa <file>")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    factorize_numbers(input_file)
