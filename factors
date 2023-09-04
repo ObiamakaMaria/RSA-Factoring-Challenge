@@ -1,6 +1,9 @@
 #!/usr/bin/python3
+
+
 import sys
 import random
+
 
 def factorize_numbers(input_file):
     try:
@@ -13,6 +16,7 @@ def factorize_numbers(input_file):
         print(f"File not found: {input_file}")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
+
 
 def pollards_rho(n):
     if n % 2 == 0:
@@ -31,10 +35,12 @@ def pollards_rho(n):
 
     return (d, n // d)
 
+
 def gcd(a, b):
     while b:
         a, b = b, a % b
     return a
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
